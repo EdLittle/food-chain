@@ -37,6 +37,20 @@ class FoodChainTest < Minitest::Test
     end
   end
 
+  def test_construct_stanza
+    stanza = FoodChain.construct_stanza(%w(fly))
+    song_file = File.expand_path('../song.txt', __FILE__)
+    whole_song = IO.read(song_file)
+    expected = whole_song.split("\n")[0..1].join("\n")
+    assert_equal expected.strip, stanza.strip
+
+    stanza = FoodChain.construct_stanza(%w(fly spider))
+    assert_match /swallowed the fly to catch the spider/, stanza
+
+    stanza = FoodChain.construct_stanza(%w(fly spider bird))
+    assert_match /wriggled and jiggled/, stanza
+  end
+
   # Problems in exercism evolve over time,
   # as we find better ways to ask questions.
   # The version number refers to the version of the problem you solved,
